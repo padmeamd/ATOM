@@ -81,7 +81,6 @@ public class ForumController {
     public void deleteMessage(@PathVariable Long messageId) {
         Message message = messageRepository.findById(messageId)
                 .orElseThrow(() -> new IllegalArgumentException("Message not found with id: " + messageId));
-        // Проверка авторства сообщения может быть выполнена здесь
         messageRepository.delete(message);
     }
 }
