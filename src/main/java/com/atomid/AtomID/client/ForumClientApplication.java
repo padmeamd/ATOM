@@ -28,6 +28,5 @@ public class ForumClientApplication implements CommandLineRunner {
             System.out.println("Ошибка при получении списка топиков: " + response.getStatusCodeValue());
         }
 
-        // Другие вызовы API можно делать аналогично
     }
 }
