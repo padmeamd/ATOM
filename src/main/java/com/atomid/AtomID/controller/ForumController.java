@@ -45,13 +45,10 @@ public class ForumController {
                 .build();
         messageRepository.save(message2);
     }
-
     @GetMapping("/list")
     public List<Topic> getAllTopics() {
-
         return topicService.getAllTopics();
     }
-
     @GetMapping("/messages/list")
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
