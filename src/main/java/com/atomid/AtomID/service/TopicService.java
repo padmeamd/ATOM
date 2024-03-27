@@ -2,6 +2,7 @@ package com.atomid.AtomID.service;
 
 import com.atomid.AtomID.entity.Topic;
 import com.atomid.AtomID.repository.TopicRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class TopicService {
     private final TopicRepository topicRepository;
-
-    @Autowired
-    public TopicService(TopicRepository topicRepository) {
-        this.topicRepository = topicRepository;
-    }
 
     public List<Topic> getAllTopics() {
         return topicRepository.findAll();
@@ -26,13 +23,14 @@ public class TopicService {
     }
 
     public Topic createTopic(Topic topic) {
-        if (topic.getTitle() == null || topic.getTitle().isEmpty()) {
-            throw new IllegalArgumentException("Заголовок топика не может быть пустым");
+        if (topic.getMessages() == null || topic.getMessages().isEmpty()) {
+            throw new IllegalArgumentException("Topic must have at least one message!");
         }
-
+        if (topic.getTitle() == null || topic.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("The topic title cannot be empty!");
+        }
         return topicRepository.save(topic);
     }
-
     public Optional<Topic> updateTopic(Long id, Topic updatedTopic) {
         Optional<Topic> optionalTopic = topicRepository.findById(id);
         if (optionalTopic.isPresent()) {
@@ -40,11 +38,9 @@ public class TopicService {
             topic.setTitle(updatedTopic.getTitle());
             return Optional.of(topicRepository.save(topic));
         } else {
-            // Handle error if topic not found
-            return Optional.empty();
+            throw new IllegalArgumentException("Topic with id: " + id + " is not found");
         }
     }
-
     public void deleteTopicById(Long id) {
         topicRepository.deleteById(id);
     }
