@@ -46,15 +46,21 @@ public class ForumController {
         messageRepository.save(message2);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public List<Topic> getAllTopics() {
+
         return topicService.getAllTopics();
+    }
+
+    @GetMapping("/messages/list")
+    public List<Message> getAllMessages() {
+        return messageService.getAllMessages();
     }
     @GetMapping("/{topicId}/messages")
     public List<Message> getMessagesByTopic(@PathVariable Long topicId) {
         return messageService.getMessagesByTopic(topicId);
     }
-    @PostMapping
+    @PostMapping("/topics")
     public Topic createTopic(@RequestBody Topic topic) {
         return topicService.createTopic(topic);
     }
@@ -67,7 +73,7 @@ public class ForumController {
         return messageService.updateMessage(messageId,updatedMessage);
 
     }
-    @PutMapping("/messages/{messageId}")
+    @PutMapping("/{topicId}")
     public Optional<Topic> updateTopic(@PathVariable Long topicId, @RequestBody Topic updatedTopic) {
         return topicService.updateTopic(topicId, updatedTopic);
     }
